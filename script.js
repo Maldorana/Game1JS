@@ -1,8 +1,16 @@
 'use strict';
 
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
-let userScore = 20;
+const numberLimit = 50;
+const tryLimit = 20;
+
+let secretNumber = Math.trunc(Math.random() * numberLimit) + 1;
+let userScore = tryLimit;
 let highScore = 0;
+
+document.querySelector('.score').textContent = tryLimit;
+document.querySelector(
+  '.between'
+).textContent = `(Between 1 and ${numberLimit})`;
 
 document.querySelector('.check').addEventListener('click', function () {
   const userGuess = Number(document.querySelector('.guess').value);
@@ -12,9 +20,10 @@ document.querySelector('.check').addEventListener('click', function () {
     document.querySelector('.message').textContent = '⛔ No number entered';
 
     // Invalid input
-  } else if (userGuess < 1 || userGuess > 20) {
-    document.querySelector('.message').textContent =
-      '⛔ Enter a number between 1 and 20';
+  } else if (userGuess < 1 || userGuess > numberLimit) {
+    document.querySelector(
+      '.message'
+    ).textContent = `⛔ Enter a number between 1 and ${numberLimit}`;
 
     // Player wins
   } else if (userGuess === secretNumber) {
@@ -46,4 +55,16 @@ document.querySelector('.check').addEventListener('click', function () {
       document.querySelector('.score').textContent = userScore;
     }
   }
+});
+
+document.querySelector('.again').addEventListener('click', function () {
+  secretNumber = Math.trunc(Math.random() * numberLimit) + 1;
+  userScore = tryLimit;
+
+  document.querySelector('.guess').value = '';
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.number').style.width = '15rem';
+  document.querySelector('.message').textContent = 'Start guessing...';
+  document.querySelector('.score').textContent = userScore;
 });
